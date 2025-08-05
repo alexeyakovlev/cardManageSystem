@@ -16,4 +16,5 @@ public interface UserService {
     public void deleteUserById(Long id) throws UserNotFoundException;
 
     public UserDTO updateUser(Long id, UserDTO userDTO) throws UserNotFoundException;
+
 }

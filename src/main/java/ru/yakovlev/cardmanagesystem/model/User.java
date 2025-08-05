@@ -1,6 +1,9 @@
 package ru.yakovlev.cardmanagesystem.model;
 
 import jakarta.persistence.*;
+import ru.yakovlev.cardmanagesystem.model.enums.Role;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -11,9 +14,14 @@ public class User {
 
     private String username;
 
-    public User(Long id, String username) {
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles;
+
+    public User(Long id, String username, Set<Role> roles) {
         this.id = id;
         this.username = username;
+        this.roles = roles;
     }
 
     public User() {
@@ -33,5 +41,13 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

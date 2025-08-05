@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.yakovlev.cardmanagesystem.model.User;
 import ru.yakovlev.cardmanagesystem.model.dto.UserDTO;
+import ru.yakovlev.cardmanagesystem.model.enums.Role;
 import ru.yakovlev.cardmanagesystem.repository.UserRepository;
 import ru.yakovlev.cardmanagesystem.service.UserService;
 import ru.yakovlev.cardmanagesystem.util.UserMapper;
