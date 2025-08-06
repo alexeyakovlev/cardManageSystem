@@ -3,6 +3,7 @@ package ru.yakovlev.cardmanagesystem.model;
 import jakarta.persistence.*;
 import ru.yakovlev.cardmanagesystem.model.enums.Role;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -16,12 +17,13 @@ public class User {
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    private Set<Role> roles = new HashSet<>();
 
-    public User(Long id, String username, Set<Role> roles) {
+
+    public User(Long id, String username) {
         this.id = id;
         this.username = username;
-        this.roles = roles;
     }
 
     public User() {

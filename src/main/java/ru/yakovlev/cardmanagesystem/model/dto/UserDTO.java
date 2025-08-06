@@ -2,6 +2,7 @@ package ru.yakovlev.cardmanagesystem.model.dto;
 
 import ru.yakovlev.cardmanagesystem.model.enums.Role;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class UserDTO {
@@ -10,12 +11,11 @@ public class UserDTO {
 
     private String username;
 
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
-    public UserDTO(Long id, String username, Set<Role> roles) {
+    public UserDTO(Long id, String username) {
         this.id = id;
         this.username = username;
-        this.roles = roles;
     }
 
     public UserDTO() {

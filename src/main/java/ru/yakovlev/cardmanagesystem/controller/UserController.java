@@ -7,9 +7,10 @@ import ru.yakovlev.cardmanagesystem.service.UserService;
 import ru.yakovlev.cardmanagesystem.util.exception.UserNotFoundException;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
@@ -48,4 +49,5 @@ public class UserController {
         userService.updateUser(id, userDTO);
         return userService.getUserById(id);
     }
+
 }

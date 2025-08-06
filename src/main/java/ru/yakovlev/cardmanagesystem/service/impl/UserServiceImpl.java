@@ -43,7 +43,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDTO addUser(UserDTO userDTO) {
-        User saveUser = userRepository.save(UserMapper.toUser(userDTO));
+        User saveUser = UserMapper.toUser(userDTO);
+        saveUser.getRoles().add(Role.ROLE_USER);
+        userRepository.save(saveUser);
         return UserMapper.toUserDTO(saveUser);
     }
 
@@ -61,6 +63,7 @@ public class UserServiceImpl implements UserService {
         User userById = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User with id " + id + " not found"));
         userDTO.setId(userById.getId());
+
         userRepository.save(UserMapper.toUser(userDTO));
         return userDTO;
     }
