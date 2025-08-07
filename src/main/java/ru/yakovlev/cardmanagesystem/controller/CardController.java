@@ -61,7 +61,7 @@ public class CardController {
     @PostMapping("/withdraw/{id}")
     @ResponseStatus(HttpStatus.OK)
     public CardDTO withdraw(@PathVariable Long id, @RequestBody BigDecimal amount)
-            throws CardNotFoundException, CardUnactiveException {
+            throws CardNotFoundException, CardUnactiveException, CardNotEnoughBalance {
         return cardService.withdraw(id, amount);
     }
 

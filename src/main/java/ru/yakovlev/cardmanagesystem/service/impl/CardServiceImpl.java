@@ -87,11 +87,13 @@ public class CardServiceImpl implements CardService {
 
     @Override
     @Transactional
-    public CardDTO withdraw(Long id, BigDecimal amount) throws CardNotFoundException, CardUnactiveException {
+    public CardDTO withdraw(Long id, BigDecimal amount) throws CardNotFoundException, CardUnactiveException, CardNotEnoughBalance {
         Card cardById = cardRepository.findById(id)
                 .orElseThrow(() -> new CardNotFoundException("Card with id " + id + " not found"));
         if (!cardById.isActive()) {
             throw new CardUnactiveException("Card with id " + id + " is not active");
+        } else if (cardById.getBalance().compareTo(amount) < 0) {
+            throw new CardNotEnoughBalance("Card with id " + id + " is not enough balance");
         } else {
             cardById.setBalance(cardById.getBalance().subtract(amount));
             Card cardSave = cardRepository.save(cardById);

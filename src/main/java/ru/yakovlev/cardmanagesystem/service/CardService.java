@@ -22,7 +22,7 @@ public interface CardService {
 
     public CardDTO deposit(Long id, BigDecimal amount) throws CardNotFoundException, CardUnactiveException;
 
-    public CardDTO withdraw(Long id, BigDecimal amount) throws CardNotFoundException, CardUnactiveException;
+    public CardDTO withdraw(Long id, BigDecimal amount) throws CardNotFoundException, CardUnactiveException, CardNotEnoughBalance;
 
     public void transfer(Long idCardSender, Long idCardReceiver, BigDecimal amount) throws CardNotFoundException, CardUnactiveException, CardNotEnoughBalance;
 
