@@ -4,8 +4,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.yakovlev.cardmanagesystem.model.dto.CardDTO;
 import ru.yakovlev.cardmanagesystem.service.CardService;
+import ru.yakovlev.cardmanagesystem.util.exception.CardNotEnoughBalance;
 import ru.yakovlev.cardmanagesystem.util.exception.CardNotFoundException;
+import ru.yakovlev.cardmanagesystem.util.exception.CardUnactiveException;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -43,7 +46,29 @@ public class CardController {
     }
 
     @PostMapping("/update/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public CardDTO updateCard(@PathVariable Long id, @RequestBody CardDTO cardDTO) throws CardNotFoundException {
         return cardService.updateCard(id, cardDTO);
+    }
+
+    @PostMapping("/deposit/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public CardDTO deposit(@PathVariable Long id, @RequestBody BigDecimal amount)
+            throws CardNotFoundException, CardUnactiveException {
+        return cardService.deposit(id, amount);
+    }
+
+    @PostMapping("/withdraw/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public CardDTO withdraw(@PathVariable Long id, @RequestBody BigDecimal amount)
+            throws CardNotFoundException, CardUnactiveException {
+        return cardService.withdraw(id, amount);
+    }
+
+    @PostMapping("/transfer/{idSender}/{idReceiver}")
+    @ResponseStatus(HttpStatus.OK)
+    public void transfer(@PathVariable Long idSender, @PathVariable Long idReceiver, @RequestBody BigDecimal amount)
+            throws CardNotFoundException, CardUnactiveException, CardNotEnoughBalance {
+        cardService.transfer(idSender, idReceiver, amount);
     }
 }

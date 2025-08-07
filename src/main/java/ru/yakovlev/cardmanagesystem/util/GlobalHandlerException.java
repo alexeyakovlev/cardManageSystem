@@ -4,9 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ru.yakovlev.cardmanagesystem.util.exception.CardNotFoundException;
-import ru.yakovlev.cardmanagesystem.util.exception.ErrorResponse;
-import ru.yakovlev.cardmanagesystem.util.exception.UserNotFoundException;
+import ru.yakovlev.cardmanagesystem.util.exception.*;
 
 @RestControllerAdvice
 public class GlobalHandlerException {
@@ -19,6 +17,18 @@ public class GlobalHandlerException {
     @ExceptionHandler(CardNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleCardNotFoundException(CardNotFoundException ex) {
+        return new ErrorResponse(ex.getClass().getSimpleName(), ex.getMessage());
+    }
+
+    @ExceptionHandler(CardUnactiveException.class)
+    @ResponseStatus(HttpStatus.OK)
+    public ErrorResponse handleCardUnactiveException(CardUnactiveException ex) {
+        return new ErrorResponse(ex.getClass().getSimpleName(), ex.getMessage());
+    }
+
+    @ExceptionHandler(CardNotEnoughBalance.class)
+    @ResponseStatus(HttpStatus.OK)
+    public ErrorResponse handleCardNotEnoughBalance(CardNotEnoughBalance ex) {
         return new ErrorResponse(ex.getClass().getSimpleName(), ex.getMessage());
     }
 }
