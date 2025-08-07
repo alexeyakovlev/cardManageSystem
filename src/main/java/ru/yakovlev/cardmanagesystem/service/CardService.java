@@ -25,4 +25,6 @@ public interface CardService {
     public CardDTO withdraw(Long id, BigDecimal amount) throws CardNotFoundException, CardUnactiveException;
 
     public void transfer(Long idCardSender, Long idCardReceiver, BigDecimal amount) throws CardNotFoundException, CardUnactiveException, CardNotEnoughBalance;
+
+    public CardDTO block(Long cardId) throws CardNotFoundException;
 }

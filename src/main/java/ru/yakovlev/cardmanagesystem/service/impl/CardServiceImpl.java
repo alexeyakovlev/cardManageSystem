@@ -46,6 +46,7 @@ public class CardServiceImpl implements CardService {
     @Transactional
     public CardDTO createCard(CardDTO cardDTO) {
         Card card = CardMapper.toCard(cardDTO);
+        card.setBalance(BigDecimal.ZERO);
         card.setActive(true);
         Card cardSave = cardRepository.save(card);
         return CardMapper.toCardDTO(cardSave);
@@ -113,9 +114,22 @@ public class CardServiceImpl implements CardService {
             throw new CardNotEnoughBalance("Receiver's card with id " + idCardReceiver + " is not enough balance");
         } else {
             cardSenderById.setBalance(cardSenderById.getBalance().subtract(amount));
-            Card cardSenderSave = cardRepository.save(cardSenderById);
+            cardRepository.save(cardSenderById);
             cardReceiverById.setBalance(cardReceiverById.getBalance().add(amount));
-            Card cardReceiverSave = cardRepository.save(cardReceiverById);
+            cardRepository.save(cardReceiverById);
         }
+    }
+
+    @Override
+    @Transactional
+    public CardDTO block(Long cardId) throws CardNotFoundException {
+        Card cardById = cardRepository.findById(cardId)
+                .orElseThrow(() -> new CardNotFoundException("Card with id " + cardId + " not found"));
+        if (cardById.isActive())
+            cardById.setActive(false);
+        else
+            cardById.setActive(true);
+        Card cardSave = cardRepository.save(cardById);
+        return CardMapper.toCardDTO(cardSave);
     }
 }

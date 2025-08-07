@@ -71,4 +71,10 @@ public class CardController {
             throws CardNotFoundException, CardUnactiveException, CardNotEnoughBalance {
         cardService.transfer(idSender, idReceiver, amount);
     }
+
+    @PostMapping("/block/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public CardDTO block(@PathVariable Long id) throws CardNotFoundException {
+        return cardService.block(id);
+    }
 }
